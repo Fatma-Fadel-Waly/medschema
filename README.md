@@ -35,6 +35,7 @@ verification purposes.
 * **man-made molecules**  (detection lab, method)
 * **lab tests** (test-name, lab-name, date, process, dr/tech, etc)
 * **diagnosis** (patient, doctors, etc)
+* **treatment** (former, current, suggested)
 
 * *Items like verbal symptoms are easily attainable from any mobile device using voice-to-text translations.*
 
@@ -56,9 +57,9 @@ A secondary goal is to establish a glossary of common/reference terms and defini
 data structures. 
 
 ```clojure
-{:identity {} ; anonymous identifier served via API
- :datetime  ; iso-8601 utc :-)
- :location {}  ; Hospital, clinic, etc
+{:identity {:hash "sdfasdreaf13e"} ; anonymous identifier served via API
+ :datetime "" ; iso-8601 utc :-)
+ :location {:postal_code 60606 }  ; Hospital, clinic, etc
  :physical {:age 42 :gender "M" :weight 75.4 kg :temperature 96.2 :blood_pressure [110 72]}
  :patient {:symptoms ["fever", "nausea", "tire"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
  :observation ["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"]
@@ -68,7 +69,11 @@ data structures.
          :artificial {:C13H18O2 nil}}
  :diagnosis {"influenza" {:doctor "Strainge:-)" :statistics 90.0} 
              "Lyme" {}}
- :treatment {}            
+ :treatment {:diet {} 
+             :exercise {} 
+             :supplements {} 
+             :prescriptions {} 
+             :therapies {}}            
 }
 ```
 
@@ -76,11 +81,24 @@ data structures.
 
 Lab reports can vary by company, test, date, process, etc. It's important capture this meta data in addition to the
 result to help compare procedures by date for modernization and by quality.
-
-* 
+ 
+* Establish common test names to share across laboratories
+* Lab test name IDs are flexible and up to the lab 
+* Establish adaptors for lab test catalogs
 
 ```clojure
-
+; Lab fields can vary by test
+{:name "Vitamin D" 
+ :description "A test with good sensitivity and specificity"
+ :aliases ["Test a", "Test b", "Test c"]
+ :laboratory {:name "some lab" :address {} :contact_info {:phone "111-222-3333" :email "test@somelab.com"}}
+ :lab_code 11233
+ :lab_techs ["Dr Foo Bar", "Dr Zoo"]
+ :test_date "2017-11-3T20:00:00+00:00"
+ :requirements {}  ; static lab reference data
+ :results {:actual {} :interpretation {}}
+ :notes []
+}
 ```
 
 <a name="data_primer"></a>
