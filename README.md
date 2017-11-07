@@ -15,6 +15,8 @@ verification purposes.
 * identify patterns in data to improve diagnosis (ML, DeepMind, [clash](https://github.com/dmillett/clash), etc)
 * educate doctors and patients
 * reduce cost and duration for accurate diagnosis
+* Patient completely owns immutable medical data
+* Patient blockchain contracts as incentives to share data anonymously
 
 **Challenges**
 
@@ -61,17 +63,21 @@ data structures.
  :datetime "" ; iso-8601 utc :-)
  :location {:postal_code 60606 }  ; Hospital, clinic, etc
  :physical {:age 42 :gender "M" :weight 75.4 kg :temperature 96.2 :blood_pressure [110 72]}
- :patient {:symptoms ["fever", "nausea", "tire"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
+ :patient {:symptoms ["fever", "nausea", "tired"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
  :observation ["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"]
  :blood {:genes {:23andMe {}}   ; todo: ?Naming conventions for gene expression by lab?
-         :markers {:CD57 nil}   ;
-         :natural {:vitaminD nil} 
+         :markers {:CD57 nil} 
+         ; Map to the lab example listed below
+         :natural {:vitamin_D {:measurement 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code 11233}} 
          :artificial {:C13H18O2 nil}}
+ ; Use ML and basic AI to help determine possible diagnosis        
  :diagnosis {"influenza" {:doctor "Strainge:-)" :statistics 90.0} 
-             "Lyme" {}}
+             "Arthritis" {:doctor "Strainge" :statistics 48.0} 
+             "Lyme" {:doctor "Strainge" :statistics 10.0}} ; ML trained by the CDC
  :treatment {:diet {} 
              :exercise {} 
-             :supplements {} 
+             :supplements {}
+             :herbals {} 
              :prescriptions {} 
              :therapies {}}            
 }
@@ -95,8 +101,26 @@ result to help compare procedures by date for modernization and by quality.
  :lab_code 11233
  :lab_techs ["Dr Foo Bar", "Dr Zoo"]
  :test_date "2017-11-3T20:00:00+00:00"
- :requirements {}  ; static lab reference data
- :results {:actual {} :interpretation {}}
+ ; static lab reference data
+ :requirements {:preferred_specimen "1.0 mL serum"
+                :container "SST (gold)"
+                :alternate_container "Lithium Heparin"
+                :minimum_volume "0.3 mL serum or plasma"
+                :repeat_testing false
+                :collection ["clot", "centrifuge 15 minutes" "transfer into tube <= 2 hours for non-gel tubes"]
+                :transport_temperature "refrigerated"
+                :stability {:room_temp "8 hours" :refrigerated "4 days" :frozen "6 months"}
+                :rejection_criteria "Gross hemolysis"
+                :method "... binding assay"
+                :ranges {:deficient "< 21 ng/ml" 
+                         :low "22 - 30 ng/ml" 
+                         :low_normal "31 - 44 ng/ml" 
+                         :optimum "45 - 60 ng/ml" 
+                         :high_normal "61 - 74 ng/ml"
+                         :high "> 75 ng/ml"}
+                :significance ["From sunlight" "Supplements D3, D2 as 25-hydroxy vitamin D", "etc"]         
+               } 
+ :results {:actual {:initial nil :final nil} :interpretation {}}
  :notes []
 }
 ```
