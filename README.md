@@ -20,6 +20,7 @@ verification purposes.
 
 **Challenges**
 
+* Existing insurance political structure/inertia
 * Multiple lab formats
 * Easy input of data into schema
 * Adapting existing data
@@ -59,28 +60,57 @@ A secondary goal is to establish a glossary of common/reference terms and defini
 data structures. 
 
 ```clojure
-{:identity {:hash "sdfasdreaf13e"} ; anonymous identifier served via API
- :datetime "" ; iso-8601 utc :-)
- :location {:postal_code 60606 }  ; Hospital, clinic, etc
- :physical {:age 42 :gender "M" :weight 75.4 kg :temperature 96.2 :blood_pressure [110 72]}
+{:identity "sdfasdreaf13e" {:blockchain "sdfafsfdfs"} ; anonymous identifier served via API & optional blockchain ID
+ :datetime "2017-11-14T22:15:41+00:00" ; iso-8601 utc :-)
+ :location {:postal_code "60606" }  ; Hospital, clinic, etc
+ :physical {:age 42 :gender "M" :weight 75.4 kg :temperature 96.2 :blood_pressure [:pressure 110 :heart_rate 72]}
  :patient {:symptoms ["fever", "nausea", "tired"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
  :observation ["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"]
- :blood {:genes {:23andMe {}}   ; todo: ?Naming conventions for gene expression by lab?
+ :labs {:genes {:23andMe {}}   ; todo: ?Naming conventions for gene expression by lab?
          :markers {:CD57 nil} 
          ; Map to the lab example listed below
-         :natural {:vitamin_D {:measurement 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code 11233}} 
+         :natural {:vitamin_D {:value 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code 11233}} 
          :artificial {:C13H18O2 nil}}
  ; Use ML and basic AI to help determine possible diagnosis        
  :diagnosis {"influenza" {:doctor "Strainge:-)" :statistics 90.0} 
              "Arthritis" {:doctor "Strainge" :statistics 48.0} 
              "Lyme" {:doctor "Strainge" :statistics 10.0}} ; ML trained by the CDC
- :treatment {:diet {} 
-             :exercise {} 
-             :supplements {}
-             :herbals {} 
-             :prescriptions {} 
-             :therapies {}}            
+ :treatment {:existing {} 
+             :recommended {
+               :diet {} 
+               :exercise {} 
+               :supplements {}
+               :herbals {} 
+               :prescriptions {} 
+               :therapies {}}
+             }            
 }
+```
+A multi-row sample with an analytical question
+
+```clojure
+;; Imagine asking questions of 1+ million rows of data with multiple blood test readings. 
+;; ? What patterns exist for Vitamin D for Men in northern geographic regions (postal code)?
+
+; An example using dmillett/clash to determine value frequencies for specific data elements
+; This would typically take around 1 second for a million rows of data like this
+(def mvdn (mv-freqs data :kpsets [{:kp [:physical] :ks [:gender :age]} ; value frequencies for :gender, :age
+                                  {:kp [:labs :natural] :ks [:vitamin_D]} ; value frequencies for :vitamin_D
+                                  {:kp [:location] :ks [:postal_code]}] ; value frequencies for postal_code 
+                          :plevel 2))
+
+; Perhaps form a study looking improving Vitamin D levels for a subset of postal_codes  and older men?
+[
+{:identify "a1" :datetime "2017-11-14T22:15:41+00:00" :location {:postal_code "12345"} 
+ :physical {:age 42 :gender "M" :weight 75.4 kg :temperature 96.2 :blood_pressure [:pressure 110 :heart_rate 72]}
+ :labs {:natural {:vitamin_D {:value 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab 1" :lab_code "11233"}}}}
+{:identify "a2" :datetime "2017-11-10T12:15:41+00:00" :location {:postal_code "78811"} 
+ :physical {:age 26 :gender "F" :weight 45.5 kg :temperature 98.2 :blood_pressure [:pressure 105 :heart_rate 70]}
+ :labs {:natural {:vitamin_D {:value 47 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab 2" :lab_code "123456"}}}}
+{:identify "a3" :datetime "2017-11-13T10:15:41+00:00" :location {:postal_code "65477"} 
+ :physical {:age 51 :gender "M" :weight 90.1 kg :temperature 96.2 :blood_pressure [:pressure 140 :heart_rate 80]}
+ :labs {:natural {:vitamin_D {:value 28 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code "456722"}}}}
+]
 ```
 
 ### Sample Lab Schema
@@ -120,7 +150,7 @@ result to help compare procedures by date for modernization and by quality.
                          :high "> 75 ng/ml"}
                 :significance ["From sunlight" "Supplements D3, D2 as 25-hydroxy vitamin D", "etc"]         
                } 
- :results {:actual {:initial nil :final nil} :interpretation {}}
+ :results {:final {:value 43 :units "ng/ml"} :initial {:value 43 :units "ng/ml"} :interpretation {}}
  :notes []
 }
 ```
