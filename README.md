@@ -4,28 +4,28 @@ A Clojure library designed to document schema(s) for **anonymous** medical data 
 and analysis of medical data. There is enormous potential to share and analyze all medical data to help
 properly diagnose, to educate the patient and doctors at a significantly reduced cost.
 
-Many of the studies, guidelines, and literature for symptoms, diagnosis and treatment are based soley on
-and exclusive set of test data that effectively ignores real world usage. All medical visits, symptoms, and data is valuable and represent real world, practical information that
+Many of the studies, guidelines, and literature for symptoms, diagnosis and treatment are only based on
+an exclusive set of test data that effectively ignores real world usage. All medical visits, symptoms, and data is valuable and represent real world, practical information that
 can be used to identify averages, deviations, and outliers. A common high level data structure makes it easy to share
 and analyze. The Patient owns the medical data but may easily anonymously share it for diagnosis, analysis, and 
 verification purposes.
 
-**Goals**
+### Goals
 * develop a common high level data schema and increase sharing of data
 * identify patterns in data to improve diagnosis (ML, DeepMind, [clash](https://github.com/dmillett/clash), etc)
-* educate doctors and patients
+* **educate** doctors and patients
 * reduce cost and duration for accurate diagnosis
 * Patient completely owns immutable medical data
-* Patient blockchain contracts as incentives to share data anonymously
+* **Patient crypto-currency/blockchain contracts that provide incentives to share (anonymously) data for research**
 
-**Challenges**
+### Challenges
 
 * Existing insurance political structure/inertia
 * Multiple lab formats
 * Easy input of data into schema
 * Adapting existing data
 
-**Data Attributes**
+### Data Attributes
 
 * **time and date**
 * **location** (hospital/clinic, zip_code)
@@ -53,6 +53,9 @@ with nested data structures that are more flexible (over time). The primary data
 * Dictionary/HashMap
 * Arrays/Lists
 * Fields
+
+There are thousands of health labs around the Earth, so this library will facilitate the adaptation of individual lab schemas
+when appropriate.
 
 ### Sample High Level Schema
 
