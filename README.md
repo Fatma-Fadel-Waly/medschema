@@ -74,7 +74,7 @@ data structures.
  :patient {:symptoms ["fever", "nausea", "tired"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
  :observation ["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"]
  :labs {:genes {:23andMe {}}   ; todo: ?Naming conventions for gene expression by lab?
-         :markers {:CD57 nil :cytokines {:IL2 nil :IL10 } :chemokines {}} 
+         :markers {:CD57 nil :cytokines {:IL1B nil :IL2 nil :IL6 :IL10 nil :TNF-a nil} :chemokines {}} 
          ; Map to the lab example listed below
          :natural {:vitamin_D {:value 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code 11233}} 
          :artificial {:C13H18O2 nil}}
