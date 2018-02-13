@@ -19,13 +19,17 @@ verification purposes.
 * **Patient crypto-currency/blockchain contracts that provide incentives to share (anonymously) data for research**
 
 ### Challenges
-
 * Existing insurance political structure/inertia
 * Multiple lab formats
+* Lack of standard tests for cytokines, chemokines, etc
 * Easy input of data into schema
 * Adapting existing data
 
 ### Data Attributes
+There are many different categories that should be tested at regular intervals in different labs to build a
+more robust model of our physiology. For example, the human immune system is very dynamic and yet ignored by
+the majority fo clinical doctors and rarely submitted for testing in proximity to illnesses, vaccinations, 
+acupuncture, etc. 
 
 * **time and date**
 * **location** (hospital/clinic, zip_code)
@@ -33,7 +37,7 @@ verification purposes.
 * **symptoms** (verbal, observable, measurable)
 * **genetic expression**
 * **vitamin, mineral levels**
-* **specific markers** (cytokines, red blood cells, ferritin, etc)
+* **specific markers** (cytokines, chemokines, interferons red blood cells, neutrophils, etc)
 * **natural molecules** (detection lab, method)
 * **man-made molecules**  (detection lab, method)
 * **lab tests** (test-name, lab-name, date, process, dr/tech, etc)
@@ -70,7 +74,7 @@ data structures.
  :patient {:symptoms ["fever", "nausea", "tired"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
  :observation ["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"]
  :labs {:genes {:23andMe {}}   ; todo: ?Naming conventions for gene expression by lab?
-         :markers {:CD57 nil} 
+         :markers {:CD57 nil :cytokines {:IL2 nil :IL10 } :chemokines {}} 
          ; Map to the lab example listed below
          :natural {:vitamin_D {:value 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code 11233}} 
          :artificial {:C13H18O2 nil}}
