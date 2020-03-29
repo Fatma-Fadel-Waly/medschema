@@ -5,10 +5,10 @@ and analysis of medical data. There is enormous potential to share and analyze a
 properly diagnose, to educate the patient and doctors at a significantly reduced cost.
 
 Many of the studies, guidelines, and literature for symptoms, diagnosis and treatment are only based on
-an exclusive set of test data that effectively ignores real world usage. All medical visits, symptoms, and data is valuable and represent real world, practical information that
-can be used to identify averages, deviations, and outliers. A common high level data structure makes it easy to share
-and analyze. The Patient owns the medical data but may easily anonymously share it for diagnosis, analysis, and 
-verification purposes.
+an exclusive set of test data that effectively ignores real world usage. **All medical visits, symptoms, and 
+data are valuable** and represent real world, practical information that can be used to identify averages, deviations, 
+and outliers. A common high level data structure makes it easy to share and analyze. The Patient owns the medical 
+data but may easily anonymously share it for diagnosis, analysis, and verification purposes.
 
 ### Goals
 * develop a common high level data schema and increase sharing of data
@@ -66,32 +66,28 @@ when appropriate.
 A secondary goal is to establish a glossary of common/reference terms and definitions and refer to them in the 
 data structures. 
 
-```clojure
-{:identity "sdfasdreaf13e" {:blockchain "sdfafsfdfs"} ; anonymous identifier served via API & optional blockchain ID
- :datetime "2017-11-14T22:15:41+00:00" ; iso-8601 utc :-)
- :location {:postal_code "60606" }  ; Hospital, clinic, etc
- :physical {:age 42 :gender "M" :weight 75.4 kg :temperature 96.2 :blood_pressure [:pressure 110 :heart_rate 72]}
- :patient {:symptoms ["fever", "nausea", "tired"] :recorded_symptoms {:free_app  :alexa nil, :siri nil,}}
- :observation ["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"]
- :labs {:genes {:23andMe {}}   ; todo: ?Naming conventions for gene expression by lab?
-         :markers {:CD57 nil :cytokines {:IL1B nil :IL2 nil :IL6 :IL10 nil :TNF-a nil} :chemokines {}} 
-         ; Map to the lab example listed below
-         :natural {:vitamin_D {:value 41 :units "ng/mL" :type "25-Hydroxy" :laboratory "some lab" :lab_code 11233}} 
-         :artificial {:C13H18O2 nil}}
- ; Use ML and basic AI to help determine possible diagnosis        
- :diagnosis {"influenza" {:doctor "Strainge:-)" :statistics 90.0} 
-             "Arthritis" {:doctor "Strainge" :statistics 48.0} 
-             "Lyme" {:doctor "Strainge" :statistics 10.0}} ; ML trained by the CDC
- :treatment {:existing {} 
-             :recommended {
-               :diet {} 
-               :exercise {} 
-               :supplements {}
-               :herbals {} 
-               :prescriptions {} 
-               :therapies {}}
-             }            
-}
+```json
+{"identity":"foo123", "blockchain":{"id":"", "contract":""}, "location":{"postal-code": "", "type": "home"}, 
+ "date_time":"2020-03-28T17:07:31.000", "age":42, "gender":"", 
+ "data":{"temperature":{"device":"braunXyz" , "value":98.4}, "pulse":{"device":"hand", "value":68}, 
+         "oxygen":{"device":"oxi", "value":99}, "weight": {}, 
+         "descriptions":{"head":"", "sinus":"", "throat":"", "eyes":"", "stomach":"", "intestines":"", "lungs":"",
+                         "heart":"", "arms":"", "hands":"", "legs":"", "feet":"", "urine":"", "bowels":"", "skin":"",
+                         "back":"" ,"teeth":"", "tongue":"", "energy":"", "general":""},
+         "diet":{"time":[{"food":{}, "supplements":{}, "herbals":{}}]}, "exercise": {}, 
+
+ "observation":["Lucid", "Calm", "Tired", "Rational", "No tick bites", "Upstate New York Autumn Camping Vacation"],
+ "labs": {"genetic": {"23andMe": {}},
+          "immune_markers":{"CD57":null, "cytokines":{"IL1B":null, "IL2":null, "IL6":null, "IL10":null, "TNF-a": null}, "chemokines":{}}, 
+          "natural":{"vitamin_D":{"value":41, "units":"ng/mL", "type":"25-Hydroxy", "laboratory":{"name":"some lab", "code":"11233"}}}, 
+          "artificial":{"C13H18O2": null},
+          "influenza": {"device":"abottxyz", "value": true}}},
+ "diagnosis":{"influenza":{"doctor":"Strainge:-)", "probability": 90.0}, 
+             "Arthritis": {"doctor":"Strainge", "probability":48.0}, 
+             "Lyme":{"doctor":"Strainge", "probability":10.0}},
+ "treatment":{"existing":{}, 
+              "recommended":{"diet":{}, "exercise":{}, "supplements":{},"herbals":{}, "prescriptions":{}, "therapies":{}}
+             }}
 ```
 A multi-row sample with an analytical question
 
@@ -182,5 +178,5 @@ result to help compare procedures by date for modernization and by quality.
 
 Copyright © 2017 dmillett
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+This program and the accompanying materials are made available under the
+terms of the GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
